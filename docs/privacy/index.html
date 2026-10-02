@@ -25,7 +25,7 @@
 <main>
   <header>
     <h1>Live Transcriber<br>Privacy Policy</h1>
-    <p class="meta">Effective July 14, 2026 · 中文版本见下方</p>
+    <p class="meta">Effective October 2, 2026 · 中文版本见下方</p>
   </header>
 
   <p class="notice">Live Transcriber is local-first. Recordings and transcripts stay in the app's private storage on your device by default. We do not operate a backend that receives your recordings.</p>
@@ -36,23 +36,43 @@
   <h2>Microphone and speech recognition</h2>
   <p>Microphone access is used to record audio. Speech Recognition access is used to convert speech into text. The default live transcription workflow uses Apple's system Speech frameworks. Live Transcriber does not send live microphone audio to a developer-operated server.</p>
 
+  <h2>Optional Apple system translation</h2>
+  <p>When you explicitly choose Translate from a transcript line's menu, that selected line is passed to Apple's system translation interface. Apple may process the line online according to your Translate settings. If the required languages are downloaded, the system can translate on your device when offline; enabling On-Device Mode in Settings makes Apple Translate remain offline. Live Transcriber does not send surrounding transcript lines or audio for this action.</p>
+
   <h2>Optional iCloud sync</h2>
   <p>If you enable iCloud sync, recordings and their index may be stored in the app-private iCloud container and CloudKit private database associated with your Apple Account. Apple provides and governs these services. You can disable iCloud sync in the app's Settings.</p>
 
   <h2>Optional local model downloads</h2>
-  <p>You may choose to download Whisper or Qwen3 model files from third-party model hosting services. Downloaded models are stored on your device and can be deleted in Settings. When you select local processing, transcription and summarization run on your device.</p>
+  <p>You may choose to download supported transcription or summarization model files from third-party model hosting services. Downloaded models are stored on your device and can be deleted in Settings. When you select local processing, transcription and summarization run on your device.</p>
 
-  <h2>Optional OpenAI transcription</h2>
-  <p>OpenAI transcription is disabled by default. If you enable it, enter your own OpenAI API key, and manually choose OpenAI transcription for a saved recording, that selected audio is sent directly from your device to OpenAI. Your API key is stored in the iOS Keychain. OpenAI processes the request under its own terms and privacy policy. Do not use this option for content you do not want to send to OpenAI.</p>
+  <h2>Optional processing on your paired Mac</h2>
+  <p>If you enable My Mac, pair your devices, and confirm transcription of a saved recording, the selected audio is sent through an authenticated encrypted connection to your own Mac on the same local network or through your Tailscale network. The Mac processes the job and sends the transcript back. Job files may remain on that Mac for recovery and cleanup; the original recording remains on your phone. You can stop using the feature or remove the pairing. This audio does not pass through a Live Transcriber developer server.</p>
 
-  <h2>Location and Reminders</h2>
-  <p>Location is used only when you choose to attach a location to a saved recording. Reminders access is used only when you choose to export an action item to Apple Reminders. We do not send this information to a developer-operated server.</p>
+  <h2>Optional cloud processing</h2>
+  <p>If you explicitly choose a cloud provider and authorize an action, the selected recording's audio or the bounded transcript context needed for that action is sent to the chosen provider. Credentials are stored in the system Keychain. A custom endpoint receives the requests you direct to it, and OpenRouter forwards requests to its selected upstream provider. The experimental OpenAI account sign-in route sends selected text context, not audio, to OpenAI; it is not an officially supported third-party integration. Each provider's privacy, retention, and training policies apply. Some providers retain uploaded files, which may need to be removed in that provider's account.</p>
+
+  <h2>Regional feature availability</h2>
+  <p>Live Transcriber checks the current App Store storefront through StoreKit to determine whether region-restricted features may be offered. In the China Mainland storefront, third-party cloud AI and certain third-party model options are unavailable. If the storefront cannot be determined, those features remain unavailable. The storefront value is used only for feature availability and is not used for advertising, tracking, or profiling.</p>
+
+  <h2>Purchases and Pro access</h2>
+  <p>Apple processes Pro payments. We use RevenueCat to manage purchases and Pro access, which involves sharing purchase information, an app-generated customer identifier, and basic device information, including the model. This information supports purchases and purchase analytics, not advertising or cross-app tracking. RevenueCat does not receive your recordings, transcripts, or API keys, and handles this information under its <a href="https://www.revenuecat.com/privacy">own privacy policy</a>.</p>
+
+  <h2>Optional Gemini Cloud outside China Mainland</h2>
+  <p>Gemini Cloud is unavailable in the China Mainland storefront and off by default elsewhere. If you enable it, provide your own API key, and confirm an action, the recording or text needed for that action is sent directly from your device to Google. Automatic mode remains local-only. Your key is stored in the system Keychain, and Google handles requests under its own privacy policy.</p>
+
+  <h2>Location, Reminders, and Calendar</h2>
+  <p>If automatic recording location is enabled, or you choose Add Location before saving, the app attaches your location to the recording. Automatic location is on by default and can be turned off in Settings or for a single recording. The app accesses Apple Reminders only when you export an action item. If you connect Apple Calendar, the app reads your calendar events on your device to link a recording to the event it captured and, if you turn them on, to schedule meeting alerts. A link saves only the event’s name and scheduled time with the recording; attendees and notes stay in Calendar. Linked event names and times sync with your recordings through your iCloud account when iCloud sync is on, and are never included in shared audio files. When you export or copy a transcript, you can include the linked event’s name, time, organizer, and participant names, and, if you select it, the invitation text; the app reads them from Calendar on your device at that moment and does not store them. We do not send this information to our servers.</p>
+
+  <h2>TestFlight optimization data</h2>
+  <p>Eligible TestFlight builds automatically send performance and failure reports to our servers to improve reliability and transcription. Reports may include app, system, device, and diagnostic information, plus reviewed model families, usage counts, operation outcomes, bounded processing times, audio duration for real-time factor, and thermal state. They do not include user content (such as recordings, transcripts, prompts, or model output), account or purchase identifiers, API keys, raw model paths, or stable device identifiers. This reporting has no in-app off switch and stops when you leave TestFlight or use the App Store version. Raw reports are kept for up to 30 days, and aggregated trends for up to 13 months.</p>
 
   <h2>Analytics, advertising, and tracking</h2>
-  <p>Live Transcriber does not include third-party advertising or analytics SDKs and does not track you across apps or websites.</p>
+  <p>This usage analytics integration begins with TestFlight 1.2.5 (2020). Earlier App Store versions do not include it; the same default and opt-out apply when an App Store version includes this integration.</p>
+  <p>In the iPhone/iPad app, usage analytics is on by default in both App Store and TestFlight versions. You can turn off Share Usage Analytics in Settings → Privacy. We send PostHog US Cloud a limited set of app launches, foreground/background transitions, selected tabs, onboarding completion, and recording attempt/start/end outcomes, with event timestamps, app version/build, distribution channel, and a random app-specific analytics identifier. This identifier is separate from purchase and account identifiers; we do not identify you to PostHog or link it to website visits. No audio, transcript, summary, prompt, recording title, filename, or recording identifier is sent. There is no screen recording, automatic interaction capture, advertising, or cross-app tracking. IP-based geolocation is disabled; like any network service, PostHog receives the connection's IP address. PostHog processes data under its <a href="https://posthog.com/privacy">privacy policy</a> and the project's retention settings.</p>
+  <p>Turning off analytics cancels active requests, discards pending events, and removes the local analytics identifier. It remains off after relaunch. Turning it on creates a new identifier and does not send events from the disabled period. Events already received cannot be recalled by the switch. Pending events are held only in a bounded memory queue and are lost when the app exits. This switch does not change the separate TestFlight optimization diagnostics or RevenueCat purchase services described above. The native macOS app does not use this PostHog integration.</p>
 
   <h2>Retention and deletion</h2>
-  <p>You can delete individual recordings and downloaded models in the app. Removing the app deletes its local private data. Content synchronized through iCloud is managed through your Apple Account and Apple's services. Data sent to an optional third-party service is subject to that service's retention policy.</p>
+  <p>You can delete individual recordings and downloaded models in the app. Removing the app deletes its local private data. Content synchronized through iCloud is managed through your Apple Account and Apple's services. Data sent to an optional third-party service is subject to that service's retention policy. TestFlight optimization reports follow the retention periods stated above.</p>
 
   <h2>Children's privacy</h2>
   <p>Live Transcriber is a general-purpose productivity tool and is not directed specifically to children. We do not knowingly collect children's personal information through a developer-operated service.</p>
@@ -66,7 +86,7 @@
   <section class="language" lang="zh-Hans">
     <header>
       <h1>Live Transcriber<br>隐私政策</h1>
-      <p class="meta">生效日期：2026 年 7 月 14 日</p>
+      <p class="meta">生效日期：2026 年 10 月 2 日</p>
     </header>
 
     <p class="notice">Live Transcriber 以本地处理为优先。录音和转录内容默认保存在设备上的 App 私有空间中。我们不运营接收用户录音的开发者后端。</p>
@@ -77,23 +97,43 @@
     <h2>麦克风与语音识别</h2>
     <p>麦克风权限用于录制音频，语音识别权限用于把语音转换成文字。默认实时转录流程使用 Apple 系统语音框架。Live Transcriber 不会把实时麦克风音频发送到开发者运营的服务器。</p>
 
+    <h2>可选的 Apple 系统翻译</h2>
+    <p>当你在某条转录文字的菜单中明确选择“翻译”时，只有该条文字会交给 Apple 系统翻译界面。Apple 可能会根据你的“翻译”设置联网处理这条文字；如果所需语言已经下载，系统可在断网时改用设备端翻译。在系统设置中开启“设备端模式”后，Apple 翻译会始终保持离线。此操作不会向 Apple 发送相邻转录内容或录音音频。</p>
+
     <h2>可选 iCloud 同步</h2>
     <p>如果你启用 iCloud 同步，录音文件和索引可能保存在与你的 Apple 账户关联的 App 私有 iCloud 容器和 CloudKit 私有数据库中。这些服务由 Apple 提供和管理。你可以在 App 设置中关闭 iCloud 同步。</p>
 
     <h2>可选本地模型下载</h2>
-    <p>你可以选择从第三方模型托管服务下载 Whisper 或 Qwen3 模型。模型保存在设备上，并可在设置中删除。选择本地处理时，转录和摘要在设备上运行。</p>
+    <p>你可以选择从第三方模型托管服务下载受支持的转录或摘要模型。模型保存在设备上，并可在设置中删除。选择本地处理时，转录和摘要在设备上运行。</p>
 
-    <h2>可选 OpenAI 转录</h2>
-    <p>OpenAI 转录默认关闭。只有当你启用该功能、输入自己的 OpenAI API Key，并为某个已保存录音手动选择 OpenAI 转录时，所选音频才会从设备直接发送到 OpenAI。API Key 保存在 iOS 钥匙串中。OpenAI 将依据其自身条款和隐私政策处理请求。请勿使用该选项发送你不希望交由 OpenAI 处理的内容。</p>
+    <h2>可选的已配对 Mac 处理</h2>
+    <p>如果你启用“我的 Mac”、完成设备配对，并确认转录某条已保存的录音，所选音频会通过经过身份验证的加密连接，发送给同一局域网或 Tailscale 网络中的你自己的 Mac。Mac 处理任务后把转录结果传回。任务文件可能保留在那台 Mac 上，用于恢复和清理；原始录音仍保存在手机上。你可以停止使用此功能或移除配对。音频不会经过 Live Transcriber 开发者的服务器。</p>
 
-    <h2>位置与提醒事项</h2>
-    <p>仅当你选择给录音附加位置时，App 才会使用位置权限。仅当你选择把行动项导出到 Apple 提醒事项时，App 才会使用提醒事项权限。我们不会把这些信息发送到开发者运营的服务器。</p>
+    <h2>可选云端处理</h2>
+    <p>只有你明确选择云端服务并授权操作后，所选录音的音频或该操作所需、范围受限的转录上下文才会发送至所选服务商。凭据存于系统钥匙串。自定义端点会接收你指定发往它的请求，OpenRouter 会把请求转交所选上游服务。实验性的 OpenAI 账户登录方式只向 OpenAI 发送所选文字上下文，不发送音频；它并非获得官方支持的第三方集成。各服务商自身的隐私、保留及训练政策适用。部分服务商会保留已上传文件，可能需要你在对应服务的账户中移除。</p>
+
+    <h2>功能的地区可用性</h2>
+    <p>Live Transcriber 通过 StoreKit 检查当前 App Store 商店地区，以判断是否可以提供受地区限制的功能。在中国大陆商店，第三方云端 AI 及部分第三方模型选项不可用。如果无法确定商店地区，这些功能也会保持不可用。商店地区信息仅用于判断功能可用性，不用于广告、追踪或用户画像。</p>
+
+    <h2>购买与 Pro 权益</h2>
+    <p>Pro 付款由 Apple 处理。我们使用 RevenueCat 管理购买和 Pro 权益，为此会提供购买信息、App 生成的客户标识符，以及包括型号在内的基础设备信息。这些信息用于购买服务和分析，不用于广告或跨 App 追踪。RevenueCat 不会接收你的录音、转录文本或 API Key，并依据其<a href="https://www.revenuecat.com/privacy">自身隐私政策</a>处理这些信息。</p>
+
+    <h2>中国大陆以外可选的 Gemini 云端功能</h2>
+    <p>Gemini 云端功能在中国大陆商店不可用，在其他地区默认关闭。只有你启用功能、提供自己的 API Key 并确认操作后，该操作所需的录音或文字才会从设备直接发送至 Google。自动模式始终只在本地处理。API Key 保存在系统钥匙串中，Google 依据其隐私政策处理请求。</p>
+
+    <h2>位置、提醒事项与日历</h2>
+    <p>启用自动添加录音位置，或在保存前选择添加位置时，App 会把当前位置附加到录音。自动添加默认开启，可在设置中或保存单次录音时关闭。只有你导出行动项时，App 才会访问 Apple 提醒事项。如果你连接 Apple 日历，App 会在本机读取日历事件，用于把录音关联到它所记录的会议，并在你开启会议提醒后安排提醒。关联只随录音保存事件名称和计划时间；参会人和备注仍留在日历中。开启 iCloud 同步后，关联事件的名称和时间会随录音通过你的 iCloud 账户同步，但不会包含在分享的音频文件中。导出或复制转录文本时，你可以选择包含关联事件的名称、时间、组织者和参与者姓名；如果你选择“邀请内容”，还会包含邀请文字。这些信息只在当时从你设备上的日历读取，App 不会保存。我们不会把这些信息发送到自己的服务器。</p>
+
+    <h2>TestFlight 优化数据</h2>
+    <p>符合条件的 TestFlight 版本会自动向我们的服务器发送性能与故障报告，用于改进稳定性和转录体验。报告可能包含 App、系统、设备和诊断信息，以及经审查的模型类别、使用次数、操作结果、受限的处理和音频时长（用于计算实时系数）及温度状态。不包含录音、转录、提示词、模型输出等用户内容，也不包含账户或购买标识符、API Key、原始模型路径或稳定的设备标识符。App 内无法关闭这项报告；退出 TestFlight 或改用 App Store 版本后即停止。原始报告最多保留 30 天，汇总趋势最多保留 13 个月。</p>
 
     <h2>分析、广告与追踪</h2>
-    <p>Live Transcriber 不包含第三方广告或分析 SDK，也不会跨 App 或网站追踪用户。</p>
+    <p>这项使用统计接入始于 TestFlight 1.2.5（2020）。更早的 App Store 版本不包含它；后续包含这项接入的正式版也采用相同的默认设置和关闭方式。</p>
+    <p>iPhone/iPad App 的正式版和 TestFlight 版本默认开启使用统计，你可以在“设置 → 隐私”中关闭“共享使用统计”。我们向 PostHog 美国云服务发送范围受限的 App 启动、前后台切换、标签页选择、引导完成，以及录音尝试、开始和结束结果，附带事件时间、App 版本与构建号、发行渠道及随机生成的 App 专用统计标识。该标识与购买和账户标识独立；我们不会向 PostHog 识别你的身份或将其与网站访问关联。不发送音频、转录、摘要、提示词、录音标题、文件名或录音标识，也不录制屏幕、自动采集界面内容、投放广告或跨 App 追踪。已关闭基于 IP 的地理位置推断；与其他网络服务一样，PostHog 会收到连接的 IP 地址。PostHog 根据其<a href="https://posthog.com/privacy">隐私政策</a>及项目的数据保留设置处理数据。</p>
+    <p>关闭统计会取消正在发送的请求、清除待发事件和本机统计标识，重启后仍保持关闭。重新开启会生成新标识，不会补报关闭期间的操作。开关无法撤回服务端已经收到的事件。待发事件仅存于有上限的内存队列，退出 App 后即丢弃。此开关不影响上文所述、独立运行的 TestFlight 优化诊断及 RevenueCat 购买服务。原生 macOS App 不使用这项 PostHog 接入。</p>
 
     <h2>保留与删除</h2>
-    <p>你可以在 App 中删除录音和已下载模型。卸载 App 会删除其本机私有数据。通过 iCloud 同步的内容由你的 Apple 账户和 Apple 服务管理。发送给可选第三方服务的数据受该服务的数据保留政策约束。</p>
+    <p>你可以在 App 中删除录音和已下载模型。卸载 App 会删除其本机私有数据。通过 iCloud 同步的内容由你的 Apple 账户和 Apple 服务管理。发送给可选第三方服务的数据受该服务的数据保留政策约束。TestFlight 优化报告遵循上文列出的保留期限。</p>
 
     <h2>儿童隐私</h2>
     <p>Live Transcriber 是通用效率工具，并非专门面向儿童。我们不通过开发者运营的服务故意收集儿童个人信息。</p>
