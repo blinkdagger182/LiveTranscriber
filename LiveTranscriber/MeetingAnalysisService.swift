@@ -81,13 +81,17 @@ enum MeetingAnalysisService {
         )
         let response = try await session.respond(
             to: prompt(transcript: context, languageName: languageName),
-            options: GenerationOptions(
-                samplingMode: .greedy,
-                temperature: 0.2,
-                maximumResponseTokens: 900
-            )
+            options: Self.generationOptions
         )
         return try analysis(from: response.content, provider: "appleIntelligence")
+    }
+
+    private static var generationOptions: GenerationOptions {
+        #if HAS_IOS27_SDK
+        GenerationOptions(samplingMode: .greedy, temperature: 0.2, maximumResponseTokens: 900)
+        #else
+        GenerationOptions(sampling: .greedy, temperature: 0.2, maximumResponseTokens: 900)
+        #endif
     }
 
     private static func generateLocal(

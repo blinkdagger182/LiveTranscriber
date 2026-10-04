@@ -4883,11 +4883,7 @@ private enum RecordingIntelligenceService {
             debugLog("Text iOS 26 semantic notes request. language=\(languageName), expectedOutputLanguage=\(outputLanguage), transcriptCharacters=\(transcript.count), promptCharacters=\(prompt.count), transcriptPreview=\(debugSnippet(transcript, limit: 1_200))")
             let response = try await session.respond(
                 to: prompt,
-                options: GenerationOptions(
-                    samplingMode: .greedy,
-                    temperature: 0.2,
-                    maximumResponseTokens: 180
-                )
+                options: recordingGenerationOptions(maximumResponseTokens: 180)
             )
             let notes = cleanedModelText(response.content)
             debugLog("Text iOS 26 semantic notes rawResponse=\(debugSnippet(response.content, limit: 1_500)), notes=\(debugSnippet(notes, limit: 1_000))")
@@ -4986,11 +4982,7 @@ private enum RecordingIntelligenceService {
             debugLog("Text iOS 26 final summary request. language=\(languageName), expectedOutputLanguage=\(outputLanguage), isRetry=\(previousInvalidSummary != nil), notesCharacters=\(notes.count), promptCharacters=\(prompt.count), notesPreview=\(debugSnippet(notes, limit: 1_000))")
             let response = try await session.respond(
                 to: prompt,
-                options: GenerationOptions(
-                    samplingMode: .greedy,
-                    temperature: 0.2,
-                    maximumResponseTokens: 140
-                )
+                options: recordingGenerationOptions(maximumResponseTokens: 140)
             )
             debugLog("Text iOS 26 final summary rawResponse=\(debugSnippet(response.content, limit: 1_000))")
             let summary = try parseSummaryResponse(from: response.content)
@@ -5041,11 +5033,7 @@ private enum RecordingIntelligenceService {
             debugLog("Text iOS 26 title request. language=\(languageName), expectedOutputLanguage=\(outputLanguage), transcriptCharacters=\(transcript.count), promptCharacters=\(prompt.count), transcriptPreview=\(debugSnippet(titleTranscript, limit: 1_200))")
             let response = try await session.respond(
                 to: prompt,
-                options: GenerationOptions(
-                    samplingMode: .greedy,
-                    temperature: 0.2,
-                    maximumResponseTokens: 80
-                )
+                options: recordingGenerationOptions(maximumResponseTokens: 80)
             )
             debugLog("Text iOS 26 title rawResponse=\(debugSnippet(response.content, limit: 1_000))")
             let payload = try parseTitlePayload(from: response.content)
@@ -5979,7 +5967,7 @@ private actor RecordingMetadataCloudCoordinator: CKSyncEngineDelegate {
     private static let completedDeletionsDefaultsKey = "CloudMetadataV2.CompletedDeletions"
     private static let subscriptionID = "LiveTranscriberMetadataV2Subscription"
 
-    private let container = CKContainer(identifier: containerIdentifier)
+    private lazy var container = CKContainer(identifier: Self.containerIdentifier)
     private let defaults = UserDefaults.standard
     private let zoneID = CKRecordZone.ID(zoneName: zoneName, ownerName: CKCurrentUserDefaultName)
     private var storeReferences: [WeakRecordingStoreReference] = []
@@ -6612,4 +6600,12 @@ private actor RecordingMetadataCloudCoordinator: CKSyncEngineDelegate {
             forKey: Self.completedDeletionsDefaultsKey
         )
     }
+}
+
+private func recordingGenerationOptions(maximumResponseTokens: Int) -> GenerationOptions {
+    #if HAS_IOS27_SDK
+    GenerationOptions(samplingMode: .greedy, temperature: 0.2, maximumResponseTokens: maximumResponseTokens)
+    #else
+    GenerationOptions(sampling: .greedy, temperature: 0.2, maximumResponseTokens: maximumResponseTokens)
+    #endif
 }

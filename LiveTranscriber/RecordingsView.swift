@@ -4123,7 +4123,9 @@ struct RecordingDetailView: View {
         }
     }
 
-    var body: some View {
+    var body: some View { detailPresentationStage9 }
+
+    private var detailPresentationStage0: some View {
         // A page-style TabView clips its pages at the bottom safe area,
         // which letterboxes the content above the home indicator. Plain
         // views in a ZStack extend edge-to-edge like the old single page,
@@ -4202,6 +4204,10 @@ struct RecordingDetailView: View {
         .onDisappear {
             hideReminderAddedBanner()
         }
+    }
+
+    private var detailPresentationStage1: some View {
+        detailPresentationStage0
         .sheet(isPresented: $isShowingAudioFileInfo) {
             NavigationStack {
                 ScrollView {
@@ -4249,6 +4255,10 @@ struct RecordingDetailView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
+    }
+
+    private var detailPresentationStage2: some View {
+        detailPresentationStage1
         .sheet(isPresented: $isShowingRecordingEditSheet) {
             RecordingEditSheet(
                 item: currentItem,
@@ -4312,6 +4322,10 @@ struct RecordingDetailView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
+    }
+
+    private var detailPresentationStage3: some View {
+        detailPresentationStage2
         .sheet(item: $transcriptLineEditRequest) { request in
             TranscriptLineEditSheet(
                 timeText: request.timeText,
@@ -4366,6 +4380,10 @@ struct RecordingDetailView: View {
                 }
             }
         }
+    }
+
+    private var detailPresentationStage4: some View {
+        detailPresentationStage3
         .sheet(isPresented: $isShowingLocalWhisperRetranscriptionPicker) {
             LocalWhisperRetranscriptionPicker(
                 recordingLanguageID: currentItem.languageID,
@@ -4410,6 +4428,10 @@ struct RecordingDetailView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
+    }
+
+    private var detailPresentationStage5: some View {
+        detailPresentationStage4
         .sheet(isPresented: $isShowingManualGeminiJSONImport) {
             ManualGeminiJSONImportSheet(
                 jsonText: $manualGeminiJSONText,
@@ -4426,6 +4448,10 @@ struct RecordingDetailView: View {
             ActivityShareSheet(activityItems: [item.url])
                 .ignoresSafeArea()
         }
+    }
+
+    private var detailPresentationStage6: some View {
+        detailPresentationStage5
         .onAppear {
             chatEngine.configure(recordingID: currentItem.id)
             Task {
@@ -4457,6 +4483,10 @@ struct RecordingDetailView: View {
                 player.prepareForBackgroundPlayback()
             }
         }
+    }
+
+    private var detailPresentationStage7: some View {
+        detailPresentationStage6
         .alert(
             localized(L10n.SpeechText.releaseOldLanguagesTitle),
             isPresented: Binding(
@@ -4515,6 +4545,10 @@ struct RecordingDetailView: View {
         } message: {
             Text(L10n.Recordings.restoreBeforeGeminiConfirmation)
         }
+    }
+
+    private var detailPresentationStage8: some View {
+        detailPresentationStage7
         .alert(
             localized(L10n.Recordings.transcriptionFailed),
             isPresented: Binding(
@@ -4566,6 +4600,10 @@ struct RecordingDetailView: View {
         } message: {
             Text(localizedFormat(L10n.Recordings.deleteConfirmationFormat, deleteRequest?.item.displayName ?? ""))
         }
+    }
+
+    private var detailPresentationStage9: some View {
+        detailPresentationStage8
         .alert(
             localized(L10n.Recordings.deleteFailed),
             isPresented: Binding(

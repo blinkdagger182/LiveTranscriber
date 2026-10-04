@@ -115,11 +115,7 @@ private func generateIntelligence(transcript: String, languageName: String) asyn
     let response = try await session.respond(
         to: prompt,
         generating: StructuredRecordingIntelligence.self,
-        options: GenerationOptions(
-            samplingMode: .greedy,
-            temperature: 0.2,
-            maximumResponseTokens: 320
-        )
+        options: structuredGenerationOptions()
     )
 
     return [
@@ -154,11 +150,7 @@ private func generateTitle(transcript: String, languageName: String) async throw
     let response = try await session.respond(
         to: prompt,
         generating: StructuredRecordingTitle.self,
-        options: GenerationOptions(
-            samplingMode: .greedy,
-            temperature: 0.2,
-            maximumResponseTokens: 320
-        )
+        options: structuredGenerationOptions()
     )
 
     return [
@@ -352,4 +344,13 @@ private func duplicatedJSONString(_ value: [String: Any]) -> UnsafeMutablePointe
 
 private func duplicatedCString(_ text: String) -> UnsafeMutablePointer<CChar>? {
     strdup(text)
+}
+
+// Foundation Models renamed this argument in the iOS 27 SDK.
+private func structuredGenerationOptions() -> GenerationOptions {
+    #if HAS_IOS27_SDK
+    GenerationOptions(samplingMode: .greedy, temperature: 0.2, maximumResponseTokens: 320)
+    #else
+    GenerationOptions(sampling: .greedy, temperature: 0.2, maximumResponseTokens: 320)
+    #endif
 }

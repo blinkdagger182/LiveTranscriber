@@ -60,6 +60,7 @@ struct TranscriptionView: View {
         GeometryReader { proxy in
             transcriptionCanvas(usesLandscapeLayout: proxy.size.width > proxy.size.height)
         }
+        .modifier(CardRecognitionModifier(transcriber: transcriber))
         .toolbar(.hidden, for: .navigationBar)
         .animation(.snappy(duration: 0.22, extraBounce: 0.02), value: transcriber.isRecording)
         .animation(.snappy(duration: 0.2, extraBounce: 0.02), value: transcriber.isPaused)
@@ -848,6 +849,7 @@ struct TranscriptionView: View {
                     finalStore: transcriber.finalTranscriptStore,
                     interimStore: transcriber.interimTranscriptStore
                 )
+                CardCatalogButton()
                 liveTranscriptTranslationMenu
             }
 
@@ -2117,7 +2119,13 @@ private struct TranscriptionLineRow: View {
                 .background((line.isFinal ? AppTheme.brand : AppTheme.warning).opacity(0.12), in: Capsule())
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(translatedText ?? line.text)
+                Group {
+                    if let translatedText {
+                        Text(translatedText)
+                    } else {
+                        RecognizedCardText(text: line.text, lineID: line.id)
+                    }
+                }
                     .font(.redditSans(.body))
                     .foregroundStyle(.primary)
                     .lineSpacing(4)
@@ -2125,13 +2133,12 @@ private struct TranscriptionLineRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 if let translatedText, !translatedText.isEmpty {
-                    Text(line.text)
+                    RecognizedCardText(text: line.text, lineID: line.id)
                         .font(.redditSans(.caption))
                         .foregroundStyle(.secondary)
                         .lineSpacing(3)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityHidden(true)
                 } else if isShowingTranslation {
                     Text(L10n.Recordings.translating)
                         .font(.redditSans(.caption, weight: .semibold))
@@ -2156,7 +2163,7 @@ private struct TranscriptionLineRow: View {
                 }
             }
         }
-        .accessibilityLabel(accessibilityText)
+        .accessibilityElement(children: .contain)
     }
 
     private var accessibilityText: String {
